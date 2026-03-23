@@ -28,8 +28,5 @@ public class Livro {
     private boolean disponivel;
     private int qtdDisponivel;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private User user;
 
 }

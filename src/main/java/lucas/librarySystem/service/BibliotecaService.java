@@ -11,6 +11,8 @@ import lucas.librarySystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class BibliotecaService {
 
@@ -54,6 +56,28 @@ public class BibliotecaService {
         userRepository.save(user);
         livroRepository.save(livro);
 
+        return emprestimoRepository.save(emprestimo);
+
+    }
+
+    public Emprestimo finalizarEmprestimo(Long emprestimoId) {
+        Emprestimo emprestimo = emprestimoRepository.findById(emprestimoId)
+                .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado"));
+
+        if (!emprestimo.isAtivo()) {
+            throw new RuntimeException("Livro já devolvido");
+        }
+
+        User user = emprestimo.getUser();
+        Livro livro = emprestimo.getLivro();
+
+        user.setQtdEmprestimosAtivos(user.getQtdEmprestimosAtivos() - 1);
+        livro.setQtdDisponivel(livro.getQtdDisponivel() + 1);
+        emprestimo.setAtivo(false);
+        emprestimo.setDataDevolucao(LocalDateTime.now());
+
+        userRepository.save(user);
+        livroRepository.save(livro);
         return emprestimoRepository.save(emprestimo);
 
     }
