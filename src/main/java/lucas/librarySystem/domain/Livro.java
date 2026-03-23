@@ -24,6 +24,9 @@ public class Livro {
     @Column(unique = true)
     private Long code;
     private boolean disponivel;
-    private int qtdDisponivel;
+    private int quantDisponivel;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private User user;
 
 }

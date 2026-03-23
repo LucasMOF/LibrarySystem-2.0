@@ -20,8 +20,6 @@ public class User {
     private String name;
     @Column(unique = true)
     private String cpf;
-    private int limiteEmprestimos;
-    private int qtdEmprestimosAtivos = 0;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
