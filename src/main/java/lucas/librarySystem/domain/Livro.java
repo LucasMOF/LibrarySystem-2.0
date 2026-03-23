@@ -21,10 +21,13 @@ public class Livro {
     private String tittle;
     private String autor;
     private int numeroPaginas;
+
     @Column(unique = true)
     private Long code;
+
     private boolean disponivel;
-    private int quantDisponivel;
+    private int qtdDisponivel;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private User user;

@@ -18,8 +18,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     @Column(unique = true)
     private String cpf;
+    private int qtdEmprestimosAtivos;
+    private int limiteEmprestimos;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
