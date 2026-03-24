@@ -4,14 +4,17 @@ import jakarta.transaction.Transactional;
 import lucas.librarySystem.domain.Emprestimo;
 import lucas.librarySystem.domain.Livro;
 import lucas.librarySystem.domain.User;
-import lucas.librarySystem.dto.RequestEmprestimoDTO;
 import lucas.librarySystem.repository.EmprestimoRepository;
 import lucas.librarySystem.repository.LivroRepository;
 import lucas.librarySystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class BibliotecaService {
@@ -54,6 +57,9 @@ public class BibliotecaService {
 
         user.setQtdEmprestimosAtivos(user.getQtdEmprestimosAtivos() + 1);
         livro.setQtdDisponivel(livro.getQtdDisponivel() - 1);
+        if(livro.getQtdDisponivel() < 1){
+            livro.setDisponivel(false);
+        }
 
         userRepository.save(user);
         livroRepository.save(livro);
@@ -83,4 +89,6 @@ public class BibliotecaService {
         return emprestimoRepository.save(emprestimo);
 
     }
+
+
 }
