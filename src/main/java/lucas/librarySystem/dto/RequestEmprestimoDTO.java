@@ -1,4 +1,4 @@
 package lucas.librarySystem.dto;
 
-public record RequestEmprestimoDTO() {
+public record RequestEmprestimoDTO(String cpf, Long code) {
 }

@@ -33,6 +33,8 @@ public class BibliotecaService {
 
     @Transactional
     public Emprestimo realizarEmprestimo(String cpf, Long code) {
+        System.out.println("CPF recebido do Postman: [" + cpf + "]");
+
         User user = userRepository.findByCpf(cpf)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
