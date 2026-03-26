@@ -2,6 +2,7 @@ package lucas.librarySystem.service;
 
 import lucas.librarySystem.domain.Livro;
 import lucas.librarySystem.dto.RequestLivroDTO;
+import lucas.librarySystem.dto.ResponseEmprestimoDTO;
 import lucas.librarySystem.dto.ResponseLivroDTO;
 import lucas.librarySystem.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,19 @@ public class LivroService {
         Page<Livro> pageLivros = this.livroRepository.findAll(pageable);
         return pageLivros.stream()
                 .filter(Livro::isDisponivel)
+                .map(livro -> new ResponseLivroDTO(livro.getId(),
+                        livro.getTittle(),
+                        livro.getAutor(),
+                        livro.getNumeroPaginas(),
+                        livro.getCode(),
+                        livro.isDisponivel(),
+                        livro.getQtdDisponivel()))
+                .toList();
+    }
+
+    public List<ResponseLivroDTO> buscarLivroPorTitulo(String tittle){
+        List<Livro> filterLivro = this.livroRepository.findByTittle(tittle);
+        return filterLivro.stream().filter(livro -> livro.getTittle().equals(tittle))
                 .map(livro -> new ResponseLivroDTO(livro.getId(),
                         livro.getTittle(),
                         livro.getAutor(),

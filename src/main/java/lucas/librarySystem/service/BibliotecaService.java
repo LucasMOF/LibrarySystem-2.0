@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lucas.librarySystem.domain.Emprestimo;
 import lucas.librarySystem.domain.Livro;
 import lucas.librarySystem.domain.User;
+import lucas.librarySystem.dto.ResponseEmprestimoDTO;
 import lucas.librarySystem.repository.EmprestimoRepository;
 import lucas.librarySystem.repository.LivroRepository;
 import lucas.librarySystem.repository.UserRepository;
@@ -90,5 +91,17 @@ public class BibliotecaService {
 
     }
 
-
+    public List<ResponseEmprestimoDTO> getEmprestimosAtivos(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Emprestimo> pageEmprestimos = this.emprestimoRepository.findAll(pageable);
+        return pageEmprestimos.stream()
+                .filter(Emprestimo::isAtivo)
+                .map(e -> new ResponseEmprestimoDTO(e.getId(),
+                        e.isAtivo(),
+                        e.getDataDevolucao(),
+                        e.getDataEmprestimo(),
+                        e.getLivro(),
+                        e.getUser()))
+                .toList();
+    }
 }
