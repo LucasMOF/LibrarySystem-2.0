@@ -29,9 +29,15 @@ public class EmprestimoController {
         return ResponseEntity.ok(finalizarEmprestimo);
     }
 
-    @GetMapping
+    @GetMapping("/ativos")
     ResponseEntity<List<ResponseEmprestimoDTO>> getEmprestimo(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<ResponseEmprestimoDTO> list = bibliotecaService.getEmprestimosAtivos(page, size);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ResponseEmprestimoDTO>> getAllEmprestimos(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        List<ResponseEmprestimoDTO> list = bibliotecaService.getTotalEmprestimos(page, size);
         return ResponseEntity.ok(list);
     }
 }

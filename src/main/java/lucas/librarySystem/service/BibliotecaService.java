@@ -58,7 +58,7 @@ public class BibliotecaService {
 
         user.setQtdEmprestimosAtivos(user.getQtdEmprestimosAtivos() + 1);
         livro.setQtdDisponivel(livro.getQtdDisponivel() - 1);
-        if(livro.getQtdDisponivel() < 1){
+        if (livro.getQtdDisponivel() < 1) {
             livro.setDisponivel(false);
         }
 
@@ -91,7 +91,7 @@ public class BibliotecaService {
 
     }
 
-    public List<ResponseEmprestimoDTO> getEmprestimosAtivos(int page, int size){
+    public List<ResponseEmprestimoDTO> getEmprestimosAtivos(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Emprestimo> pageEmprestimos = this.emprestimoRepository.findAll(pageable);
         return pageEmprestimos.stream()
@@ -103,5 +103,19 @@ public class BibliotecaService {
                         e.getLivro(),
                         e.getUser()))
                 .toList();
+    }
+
+    public List<ResponseEmprestimoDTO> getTotalEmprestimos(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Emprestimo> pageEmprestimos = this.emprestimoRepository.findAll(pageable);
+        return pageEmprestimos.stream()
+                .map(e -> new ResponseEmprestimoDTO(e.getId(),
+                        e.isAtivo(),
+                        e.getDataDevolucao(),
+                        e.getDataEmprestimo(),
+                        e.getLivro(),
+                        e.getUser()))
+                .toList();
+
     }
 }
